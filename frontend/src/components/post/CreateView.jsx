@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Box, Button, FormControl, InputBase, makeStyles, TextareaAutosize } from '@material-ui/core';
 import { AddCircle } from '@material-ui/icons';
+import { createPost } from '../../service/api';
 
 const useStyle = makeStyles((theme) => ({
     container: {
@@ -35,9 +37,31 @@ const useStyle = makeStyles((theme) => ({
     }
 }))
 
+const initialValues = {
+    title: '',
+    description: '',
+    picture: '',
+    username: 'park dong ho',
+    categories: 'All',
+    createDate: new Date()
+};
+
 const CreateView = () => {
     const classes = useStyle();
     const url = "https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg";
+
+    const history = useHistory();
+    const [post, setPost] = useState(initialValues);
+
+    const handleChange = (e) => {
+        setPost({ ...post, [e.target.name]: e.target.value })
+    }
+
+    const savePost = async () => {
+        await createPost(post);
+        history.push("/");
+    }
+
     return (
         <>
             <Box className={classes.container}>
@@ -45,14 +69,21 @@ const CreateView = () => {
 
                 <FormControl className={classes.form}>
                     <AddCircle fontSize="large" color="action" />
-                    <InputBase placeholder="Title" className={classes.textField} />
-                    <Button variant="contained" color="primary">Publish</Button>
+                    <InputBase
+                        onChange={(e) => handleChange(e)}
+                        placeholder="Title"
+                        className={classes.textField}
+                        name="title"
+                    />
+                    <Button onClick={() => savePost()} variant="contained" color="primary">Publish</Button>
                 </FormControl>
 
                 <TextareaAutosize
+                    onChange={(e) => handleChange(e)}
                     minRows={5}
                     placeholder="Tell your story..."
                     className={classes.textArea}
+                    name="description"
                 />
             </Box>
         </>
