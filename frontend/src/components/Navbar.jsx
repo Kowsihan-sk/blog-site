@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, makeStyles } from "@material-ui/core"
 
 const useStyles = makeStyles({
@@ -11,6 +12,10 @@ const useStyles = makeStyles({
         "& > *": {
             padding: "20px"
         }
+    },
+    link: {
+        textDecoration: "none",
+        color: "inherit"
     }
 });
 
@@ -19,7 +24,7 @@ const Navbar = () => {
     return (
         <AppBar className={classes.component}>
             <Toolbar className={classes.container} >
-                <Typography>HOME</Typography>
+                <Link to="/" className={classes.link} ><Typography>HOME</Typography></Link>
                 <Typography>ABOUT</Typography>
                 <Typography>CONTACT</Typography>
                 <Typography>LOGIN</Typography>

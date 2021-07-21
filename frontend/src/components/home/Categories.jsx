@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, makeStyles, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core'
 import { categories } from '../../constants/data';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
     create: {
@@ -11,6 +12,10 @@ const useStyles = makeStyles({
     },
     table: {
         border: "1px solid rgba(224, 224, 224, 1)"
+    },
+    link: {
+        textDecoration: "none",
+        color: "inherit"
     }
 });
 
@@ -18,7 +23,7 @@ const Categories = () => {
     const classes = useStyles();
     return (
         <>
-            <Button variant="contained" className={classes.create} >Create Table</Button>
+            <Link to="/create" className={classes.link}><Button variant="contained" className={classes.create} >Create Blog</Button></Link>
             <Table className={classes.table}>
                 <TableHead>
                     <TableRow>
