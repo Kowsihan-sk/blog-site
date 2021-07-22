@@ -34,16 +34,16 @@ const useStyles = makeStyles({
     }
 })
 
-const Post = () => {
+const Post = ({ post }) => {
     const classes = useStyles();
-    const url = "https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg";
+    const url = post.picture || "https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg";
     return (
         <Box className={classes.container}>
             <img src={url} alt="wrapper" className={classes.image} />
-            <Typography className={classes.text}>Music</Typography>
-            <Typography className={classes.heading}>Bada booom</Typography>
-            <Typography className={classes.text}>author: park dong ho</Typography>
-            <Typography className={classes.detail} >Hang in there... fighting✊</Typography>
+            <Typography className={classes.text}>{post.categories}</Typography>
+            <Typography className={classes.heading}>{post.title}</Typography>
+            <Typography className={classes.text}>author: {post.username} </Typography>
+            <Typography className={classes.detail} >{post.description}</Typography>
         </Box>
     )
 }

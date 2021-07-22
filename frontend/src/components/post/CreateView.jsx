@@ -41,9 +41,9 @@ const initialValues = {
     title: '',
     description: '',
     picture: '',
-    username: 'park dong ho',
+    username: 'kowsihan',
     categories: 'All',
-    createDate: new Date()
+    createdDate: new Date()
 };
 
 const CreateView = () => {

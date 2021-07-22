@@ -1,7 +1,8 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { Link, useHistory } from 'react-router-dom';
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import { Edit, Delete } from '@material-ui/icons';
+import { getPost, deletePost } from '../../service/api';
 
 const useStyle = makeStyles((theme) => ({
     container: {
@@ -22,7 +23,8 @@ const useStyle = makeStyles((theme) => ({
         margin: 5,
         padding: 5,
         border: "1px solid #878787",
-        borderRadius: 10
+        borderRadius: 10,
+        cursor: "pointer"
     },
     heading: {
         fontSize: 38,
@@ -37,27 +39,50 @@ const useStyle = makeStyles((theme) => ({
         [theme.breakpoints.down('sm')]: {
             display: "block"
         }
+    },
+    link: {
+        textDecoration: "none",
+        color: "inherit"
     }
 }))
 
-const DetailView = () => {
+const DetailView = ({ match }) => {
     const classes = useStyle();
     const url = "https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg";
+
+    const history = useHistory();
+    const [post, setPost] = useState([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            let data = await getPost(match.params.id);
+            // console.log(data);
+            setPost(data);
+        }
+        fetchData();
+    }, []);
+
+    const deleteBlog = async () => {
+        await deletePost(post._id);
+        history.push("/");
+    };
+
     return (
         <>
             <Box className={classes.container}>
-                <img src={url} alt="banner" className={classes.image} />
+                <img src={post.picture || url} alt="banner" className={classes.image} />
                 <Box className={classes.icons}>
-                    <Link to="/update"><Edit color="primary" className={classes.icon} /></Link>
-                    <Delete color="error" className={classes.icon} />
+                    <Link to={`/update/${post._id}`}><Edit color="primary" className={classes.icon} /></Link>
+                    <Delete onClick={() => deleteBlog()} color="error" className={classes.icon} />
                 </Box>
 
-                <Typography className={classes.heading}>Title of Blog</Typography>
+                <Typography className={classes.heading}>{post.title}</Typography>
                 <Box className={classes.subheading}>
-                    <Typography>Author: <span style={{ fontWeight: "600" }}>he who remains</span></Typography>
-                    <Typography style={{ marginLeft: "auto" }}>21 may 3012</Typography>
+                    <Link to={`/?username=${post.username}`} className={classes.link} >
+                        <Typography>Author: <span style={{ fontWeight: "600" }}>{post.username}</span></Typography>
+                    </Link>
+                    <Typography style={{ marginLeft: "auto" }}>{new Date(post.createdDate).toDateString()}</Typography>
                 </Box>
-                <Typography>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vitae ratione dolore fuga quam consequuntur velit laboriosam delectus corporis iste. Reiciendis, quod suscipit. Soluta rem eveniet alias veritatis, tempora blanditiis consequatur sit fuga corrupti dolorum quidem officia deleniti id vitae, dolor voluptatibus reiciendis? Dignissimos qui iste quia reiciendis dolore asperiores minima!</Typography>
+                <Typography>{post.description}</Typography>
             </Box>
         </>
     )

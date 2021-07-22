@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, FormControl, InputBase, makeStyles, TextareaAutosize } from '@material-ui/core';
 import { AddCircle } from '@material-ui/icons';
+import { getPost, updatePost } from '../../service/api';
+import { useHistory } from 'react-router-dom';
 
 const useStyle = makeStyles((theme) => ({
     container: {
@@ -35,28 +37,67 @@ const useStyle = makeStyles((theme) => ({
     }
 }))
 
-const CreateView = () => {
+const initialValues = {
+    title: '',
+    description: '',
+    picture: '',
+    username: 'park dong ho',
+    categories: 'All',
+    createdDate: new Date()
+};
+
+const UpdateView = ({ match }) => {
     const classes = useStyle();
     const url = "https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg";
+
+    const history = useHistory();
+    const [post, setPost] = useState(initialValues);
+    useEffect(() => {
+        const fetchData = async () => {
+            let data = await getPost(match.params.id);
+            // console.log(data);
+            setPost(data);
+        }
+        fetchData();
+    }, []);
+
+    const handleChange = (e) => {
+        setPost({ ...post, [e.target.name]: e.target.value });
+    }
+
+    const updateBlog = async () => {
+        await updatePost(match.params.id, post);
+        history.push(`/details/${match.params.id}`);
+    }
+
     return (
         <>
             <Box className={classes.container}>
-                <img src={url} alt="banner" className={classes.image} />
+                <img src={post.picture || url} alt="banner" className={classes.image} />
 
                 <FormControl className={classes.form}>
                     <AddCircle fontSize="large" color="action" />
-                    <InputBase placeholder="Title" className={classes.textField} />
-                    <Button variant="contained" color="primary">Publish</Button>
+                    <InputBase
+                        name="title"
+                        placeholder="Title"
+                        className={classes.textField}
+                        value={post.title}
+                        onChange={(e) => { handleChange(e) }}
+                    />
+                    <Button onClick={() => updateBlog()} variant="contained" color="primary">Update</Button>
                 </FormControl>
 
                 <TextareaAutosize
+                    name="description"
                     minRows={5}
                     placeholder="Tell your story..."
                     className={classes.textArea}
+                    value={post.description}
+                    onChange={(e) => { handleChange(e) }}
                 />
             </Box>
         </>
     )
 }
 
-export default CreateView
+export default UpdateView
