@@ -22,7 +22,8 @@ const useStyles = makeStyles({
     },
     heading: {
         fontSize: "18px",
-        fontWeight: 600
+        fontWeight: 600,
+        textAlign: "center"
     },
     text: {
         color: "#878787",

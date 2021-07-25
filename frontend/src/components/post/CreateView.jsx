@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Box, Button, FormControl, InputBase, makeStyles, TextareaAutosize } from '@material-ui/core';
 import { AddCircle } from '@material-ui/icons';
-import { createPost } from '../../service/api';
+import { createPost, uploadFile } from '../../service/api';
 
 const useStyle = makeStyles((theme) => ({
     container: {
@@ -48,10 +48,31 @@ const initialValues = {
 
 const CreateView = () => {
     const classes = useStyle();
-    const url = "https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg";
 
     const history = useHistory();
     const [post, setPost] = useState(initialValues);
+    const [file, setFile] = useState('');
+    // eslint-disable-next-line
+    const [imageURL, setImageURL] = useState('');
+
+    const url = post.picture || "https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg";
+
+    useEffect(() => {
+        const getImage = async () => {
+            if (file) {
+                const data = new FormData();
+                data.append("name", file.name);
+                data.append("file", file);
+
+                const image = await uploadFile(data);
+                // console.log(image);
+                post.picture = image.data;
+                setImageURL(image.data);
+            }
+        }
+        getImage();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [file]);
 
     const handleChange = (e) => {
         setPost({ ...post, [e.target.name]: e.target.value })
@@ -68,7 +89,11 @@ const CreateView = () => {
                 <img src={url} alt="banner" className={classes.image} />
 
                 <FormControl className={classes.form}>
-                    <AddCircle fontSize="large" color="action" />
+                    <label htmlFor="fileInput">
+                        <AddCircle fontSize="large" color="action" style={{ cursor: "pointer" }} />
+                    </label>
+                    <input type="file" name="" id="fileInput" style={{ display: "none" }}
+                        onChange={(e) => setFile(e.target.files[0])} />
                     <InputBase
                         onChange={(e) => handleChange(e)}
                         placeholder="Title"

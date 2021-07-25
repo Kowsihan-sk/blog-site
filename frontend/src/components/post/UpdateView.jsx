@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, FormControl, InputBase, makeStyles, TextareaAutosize } from '@material-ui/core';
 import { AddCircle } from '@material-ui/icons';
-import { getPost, updatePost } from '../../service/api';
+import { getPost, updatePost, uploadFile } from '../../service/api';
 import { useHistory } from 'react-router-dom';
 
 const useStyle = makeStyles((theme) => ({
@@ -52,6 +52,27 @@ const UpdateView = ({ match }) => {
 
     const history = useHistory();
     const [post, setPost] = useState(initialValues);
+    const [file, setFile] = useState('');
+    // eslint-disable-next-line
+    const [imageURL, setImageURL] = useState('');
+
+    useEffect(() => {
+        const getImage = async () => {
+            if (file) {
+                const data = new FormData();
+                data.append("name", file.name);
+                data.append("file", file);
+
+                const image = await uploadFile(data);
+                // console.log(image);
+                post.picture = image.data;
+                setImageURL(image.data);
+            }
+        }
+        getImage();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [file]);
+
     useEffect(() => {
         const fetchData = async () => {
             let data = await getPost(match.params.id);
@@ -59,6 +80,7 @@ const UpdateView = ({ match }) => {
             setPost(data);
         }
         fetchData();
+        // eslint-disable-next-line
     }, []);
 
     const handleChange = (e) => {
@@ -76,7 +98,12 @@ const UpdateView = ({ match }) => {
                 <img src={post.picture || url} alt="banner" className={classes.image} />
 
                 <FormControl className={classes.form}>
-                    <AddCircle fontSize="large" color="action" />
+                    <label htmlFor="fileInput">
+                        <AddCircle fontSize="large" color="action" style={{ cursor: "pointer" }} />
+                    </label>
+                    <input type="file" name="" id="fileInput" style={{ display: "none" }}
+                        onChange={(e) => setFile(e.target.files[0])} />
+
                     <InputBase
                         name="title"
                         placeholder="Title"

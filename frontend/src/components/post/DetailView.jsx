@@ -59,6 +59,7 @@ const DetailView = ({ match }) => {
             setPost(data);
         }
         fetchData();
+        // eslint-disable-next-line
     }, []);
 
     const deleteBlog = async () => {
