@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { Box, Button, FormControl, InputBase, makeStyles, TextareaAutosize } from '@material-ui/core';
 import { AddCircle } from '@material-ui/icons';
 import { createPost, uploadFile } from '../../service/api';
+import Navbar from '../Navbar';
 
 const useStyle = makeStyles((theme) => ({
     container: {
@@ -85,6 +86,7 @@ const CreateView = () => {
 
     return (
         <>
+            <Navbar />
             <Box className={classes.container}>
                 <img src={url} alt="banner" className={classes.image} />
 

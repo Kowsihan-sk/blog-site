@@ -3,6 +3,7 @@ import { Box, Button, FormControl, InputBase, makeStyles, TextareaAutosize } fro
 import { AddCircle } from '@material-ui/icons';
 import { getPost, updatePost, uploadFile } from '../../service/api';
 import { useHistory } from 'react-router-dom';
+import Navbar from '../Navbar';
 
 const useStyle = makeStyles((theme) => ({
     container: {
@@ -94,6 +95,7 @@ const UpdateView = ({ match }) => {
 
     return (
         <>
+            <Navbar />
             <Box className={classes.container}>
                 <img src={post.picture || url} alt="banner" className={classes.image} />
 
