@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, FormControl, InputBase, makeStyles, TextareaAutosize } from '@material-ui/core';
+import { Box, Button, FormControl, InputBase, InputLabel, makeStyles, TextareaAutosize, Select } from '@material-ui/core';
 import { AddCircle } from '@material-ui/icons';
 import { getPost, updatePost, uploadFile } from '../../service/api';
 import { useHistory } from 'react-router-dom';
@@ -35,6 +35,10 @@ const useStyle = makeStyles((theme) => ({
         "&:focus-visible": {
             outline: "none"
         }
+    },
+    select: {
+        marginRight: 20,
+        width: 100
     }
 }))
 
@@ -49,7 +53,7 @@ const initialValues = {
 
 const UpdateView = ({ match }) => {
     const classes = useStyle();
-    const url = "https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg";
+    const url = "https://images.pexels.com/photos/2312369/pexels-photo-2312369.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940";
 
     const history = useHistory();
     const [post, setPost] = useState(initialValues);
@@ -113,6 +117,23 @@ const UpdateView = ({ match }) => {
                         value={post.title}
                         onChange={(e) => { handleChange(e) }}
                     />
+                    <FormControl className={classes.select}>
+                        <InputLabel >Category</InputLabel>
+                        <Select
+                            native
+                            value={post.categories}
+                            onChange={(e) => handleChange(e)}
+                            name="categories"
+                        >
+                            <option aria-label="None" value="" />
+                            <option value={'Tech'}>Tech</option>
+                            <option value={'Music'}>Music</option>
+                            <option value={'Movies'}>Movies</option>
+                            <option value={'Fashion'}>Fashion</option>
+                            <option value={'Sports'}>Sports</option>
+                        </Select>
+                    </FormControl>
+
                     <Button onClick={() => updateBlog()} variant="contained" color="primary">Update</Button>
                 </FormControl>
 

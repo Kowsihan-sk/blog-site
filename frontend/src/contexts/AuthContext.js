@@ -11,8 +11,15 @@ export const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState();
     const [loading, setLoading] = useState(true);
 
-    const signup = (email, password) => {
-        return auth.createUserWithEmailAndPassword(email, password);
+    const signup = async (email, password, username) => {
+        try {
+            const result = await auth.createUserWithEmailAndPassword(email, password);
+            return await result.user.updateProfile({
+                displayName: username
+            });
+        } catch (error) {
+            return console.log(error);
+        }
     }
 
     const login = (email, password) => {
@@ -27,8 +34,12 @@ export const AuthProvider = ({ children }) => {
         return auth.sendPasswordResetEmail(email);
     }
 
-    const getUserId = () => {
-        return auth.currentUser.email;
+    const updateEmail = (email) => {
+        return currentUser.updateEmail(email);
+    }
+
+    const updatePassword = (password) => {
+        return currentUser.updatePassword(password);
     }
 
     useEffect(() => {
@@ -46,7 +57,8 @@ export const AuthProvider = ({ children }) => {
         login,
         logout,
         resetPassword,
-        getUserId
+        updateEmail,
+        updatePassword
     };
 
     return (

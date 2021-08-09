@@ -11,7 +11,7 @@ const useStyles = makeStyles({
         flexDirection: "column",
         alignItems: "center",
         "& > *": {
-            padding: "0 5px 5px 5px"
+            padding: "0 0px 5px 0px"
         }
     },
     image: {
@@ -19,11 +19,13 @@ const useStyles = makeStyles({
         width: "100%",
         objectFit: "cover",
         borderRadius: "10px 10px 0 0",
+        // paddingTop: 5
     },
     heading: {
         fontSize: "18px",
         fontWeight: 600,
-        textAlign: "center"
+        textAlign: "center",
+        padding: "0px 5px"
     },
     text: {
         color: "#878787",
@@ -31,13 +33,14 @@ const useStyles = makeStyles({
     },
     detail: {
         fontSize: "14px",
-        wordBreak: "break-word"
+        wordBreak: "break-word",
+        padding: 5
     }
 })
 
 const Post = ({ post }) => {
     const classes = useStyles();
-    const url = post.picture || "https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg";
+    const url = post.picture || "https://images.pexels.com/photos/57690/pexels-photo-57690.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940";
 
     const addElipsis = (str, limit) => {
         return str.length > limit ? str.substring(0, limit) + '...' : str;

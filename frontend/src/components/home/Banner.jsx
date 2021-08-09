@@ -3,7 +3,7 @@ import { Box, makeStyles, Typography } from '@material-ui/core'
 
 const useStyles = makeStyles({
     image: {
-        background: `url(${'https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg'}) center/55% repeat-x #000`,
+        background: `url(${'https://images.pexels.com/photos/3183132/pexels-photo-3183132.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'})`,
         width: "100%",
         height: "50vh",
         display: "flex",
@@ -17,7 +17,8 @@ const useStyles = makeStyles({
         },
         "& :last-child": {
             fontSize: 20,
-            backgroundColor: "#fff"
+            backgroundColor: "#fff",
+            padding: "0 60px"
         }
     }
 })
@@ -28,7 +29,7 @@ const Banner = () => {
         <>
             <Box className={classes.image}>
                 <Typography>BLOG</Typography>
-                <Typography>Code for Interview</Typography>
+                <Typography>SITE</Typography>
             </Box>
         </>
     )

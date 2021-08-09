@@ -12,6 +12,7 @@ import Login from './components/Login';
 import { AuthProvider } from './contexts/AuthContext';
 import PrivateRoute from './PrivateRoute';
 import ForgotPassword from './components/ForgotPassword';
+import UpdateProfile from './components/UpdateProfile';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
               <PrivateRoute exact path="/details/:id" component={DetailView} />
               <PrivateRoute exact path="/create" component={CreateView} />
               <PrivateRoute exact path="/update/:id" component={UpdateView} />
+              <PrivateRoute exact path="/update-profile" component={UpdateProfile} />
               <Route exact path="/signup" component={Signup} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/forgot-password" component={ForgotPassword} />

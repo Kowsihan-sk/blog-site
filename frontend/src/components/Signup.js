@@ -5,6 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 
 export default function Signup() {
     const emailRef = useRef();
+    const usernameRef = useRef();
     const passwordRef = useRef();
     const passwordConfirmRef = useRef();
     const { signup } = useAuth();
@@ -22,7 +23,7 @@ export default function Signup() {
         try {
             setError('');
             setLoading(true);
-            await signup(emailRef.current.value, passwordRef.current.value);
+            await signup(emailRef.current.value, passwordRef.current.value, usernameRef.current.value);
             history.push("/");
         } catch (error) {
             setError("Failed to create an account ");
@@ -45,6 +46,10 @@ export default function Signup() {
                                 <Form.Group id="email">
                                     <Form.Label>Email</Form.Label>
                                     <Form.Control type="email" ref={emailRef} required />
+                                </Form.Group>
+                                <Form.Group id="username">
+                                    <Form.Label>Username</Form.Label>
+                                    <Form.Control type="name" ref={usernameRef} required placeholder="cannot be changed later" />
                                 </Form.Group>
                                 <Form.Group id="password">
                                     <Form.Label>Password</Form.Label>

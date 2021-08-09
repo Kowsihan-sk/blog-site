@@ -19,11 +19,6 @@ const useStyles = makeStyles({
         textDecoration: "none",
         color: "inherit"
     },
-    button: {
-        background: "unset",
-        border: "none",
-        fontFamily: "Roboto"
-    },
 });
 
 const Navbar = () => {
@@ -47,9 +42,9 @@ const Navbar = () => {
             <AppBar className={classes.component}>
                 <Toolbar className={classes.container} >
                     <Link to="/" className={classes.link} ><Typography>HOME</Typography></Link>
-                    <Typography>ABOUT</Typography>
-                    <Typography>CONTACT</Typography>
-                    <Typography><button onClick={handleLogOut} className={classes.button}>LOGOUT</button></Typography>
+                    <Link to="/update-profile" className={classes.link} ><Typography>PROFILE</Typography></Link>
+                    <Link to="#" onClick={(e) => { window.location = "mailto:kowsihan2sk@gmail.com"; e.preventDefault(); }} className={classes.link} ><Typography>CONTACT</Typography></Link>
+                    <Link to="#" onClick={handleLogOut} className={classes.link}><Typography>LOGOUT</Typography></Link>
                 </Toolbar>
             </AppBar>
             {error && <Alert variant="danger">{error}</Alert>}

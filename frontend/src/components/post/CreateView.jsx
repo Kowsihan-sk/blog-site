@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
-import { Box, Button, FormControl, InputBase, makeStyles, TextareaAutosize } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
+import { Box, Button, FormControl, InputBase, InputLabel, makeStyles, Select, TextareaAutosize } from '@material-ui/core';
 import { AddCircle } from '@material-ui/icons';
 import { createPost, uploadFile } from '../../service/api';
 import { useAuth } from '../../contexts/AuthContext';
@@ -36,6 +36,10 @@ const useStyle = makeStyles((theme) => ({
         "&:focus-visible": {
             outline: "none"
         }
+    },
+    select: {
+        marginRight: 20,
+        width: 100
     }
 }))
 
@@ -52,15 +56,14 @@ const CreateView = () => {
     const classes = useStyle();
 
     const history = useHistory();
-    const location = useLocation();
     const [post, setPost] = useState(initialValues);
     const [file, setFile] = useState('');
     // eslint-disable-next-line
     const [imageURL, setImageURL] = useState('');
 
-    const { getUserId } = useAuth();
+    const { currentUser } = useAuth();
 
-    const url = post.picture || "https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg";
+    const url = post.picture || "https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940";
 
     useEffect(() => {
         const getImage = async () => {
@@ -76,8 +79,7 @@ const CreateView = () => {
             }
         }
         getImage();
-        post.username = getUserId();
-        post.categories = location.search?.split('=')[1] || 'All';
+        post.username = currentUser.displayName;
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [file]);
 
@@ -108,6 +110,21 @@ const CreateView = () => {
                         className={classes.textField}
                         name="title"
                     />
+                    <FormControl className={classes.select}>
+                        <InputLabel >Category</InputLabel>
+                        <Select
+                            native
+                            onChange={(e) => handleChange(e)}
+                            name="categories"
+                        >
+                            <option aria-label="None" value="" />
+                            <option value={'Tech'}>Tech</option>
+                            <option value={'Music'}>Music</option>
+                            <option value={'Movies'}>Movies</option>
+                            <option value={'Fashion'}>Fashion</option>
+                            <option value={'Sports'}>Sports</option>
+                        </Select>
+                    </FormControl>
                     <Button onClick={() => savePost()} variant="contained" color="primary">Publish</Button>
                 </FormControl>
 

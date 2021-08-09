@@ -6,7 +6,7 @@ export const createPost = async (req, res) => {
         const post = await new Post(req.body);
         post.save();
 
-        res.status(200).response("blog created successfully");
+        res.status(200).json("blog created successfully");
     } catch (error) {
         res.status(500).json(error);
     }
@@ -43,7 +43,7 @@ export const getPost = async (req, res) => {
 export const updatePost = async (req, res) => {
     try {
         await Post.findByIdAndUpdate(req.params.id, { $set: req.body });
-        res.status(200).response("Blog updated successfully");
+        res.status(200).json("Blog updated successfully");
     } catch (error) {
         res.status(500).json(error);
     }
@@ -52,7 +52,7 @@ export const updatePost = async (req, res) => {
 export const deletePost = async (req, res) => {
     try {
         await Post.deleteOne({ _id: req.params.id });
-        res.status(200).response("Blog deleted successfully");
+        res.status(200).json("Blog deleted successfully");
     } catch (error) {
         res.status(500).json(error);
     }

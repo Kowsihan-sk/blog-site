@@ -78,3 +78,11 @@ export const deleteComment = async (id) => {
         console.log('Error while calling deleteComment API', error);
     }
 }
+
+export const deleteComments = async (id) => {
+    try {
+        return await axios.delete(`${URL}/comments/delete/${id}`);
+    } catch (error) {
+        console.log('Error while calling deleteComments API', error);
+    }
+}

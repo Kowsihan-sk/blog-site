@@ -6,7 +6,8 @@ import Comment from './Comment';
 const useStyles = makeStyles({
     component: {
         marginTop: 100,
-        display: 'flex'
+        display: 'flex',
+        marginBottom: 40
     },
     image: {
         width: 50,

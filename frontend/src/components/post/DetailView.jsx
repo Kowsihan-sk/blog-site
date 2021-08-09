@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import { Edit, Delete } from '@material-ui/icons';
-import { getPost, deletePost } from '../../service/api';
+import { getPost, deletePost, deleteComments } from '../../service/api';
 import { useAuth } from '../../contexts/AuthContext';
 import Navbar from '../Navbar';
 import Comments from '../../comments/Comments';
@@ -51,11 +51,11 @@ const useStyle = makeStyles((theme) => ({
 
 const DetailView = ({ match }) => {
     const classes = useStyle();
-    const url = "https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg";
+    const url = "https://images.pexels.com/photos/2312369/pexels-photo-2312369.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940";
 
     const history = useHistory();
     const [post, setPost] = useState([]);
-    const { getUserId } = useAuth();
+    const { currentUser } = useAuth();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -68,6 +68,7 @@ const DetailView = ({ match }) => {
     }, []);
 
     const deleteBlog = async () => {
+        await deleteComments(post._id);
         await deletePost(post._id);
         history.push("/");
     };
@@ -79,7 +80,7 @@ const DetailView = ({ match }) => {
                 <img src={post.picture || url} alt="banner" className={classes.image} />
                 <Box className={classes.icons}>
                     {
-                        getUserId() === post.username &&
+                        currentUser.displayName === post.username &&
                         <>
                             <Link to={`/update/${post._id}`}><Edit color="primary" fontSize="large" className={classes.icon} /></Link>
                             <Delete onClick={() => deleteBlog()} color="error" fontSize="large" className={classes.icon} />
