@@ -18,7 +18,12 @@ const useStyles = makeStyles({
     link: {
         textDecoration: "none",
         color: "inherit"
-    }
+    },
+    button: {
+        background: "unset",
+        border: "none",
+        fontFamily: "Roboto"
+    },
 });
 
 const Navbar = () => {
@@ -44,7 +49,7 @@ const Navbar = () => {
                     <Link to="/" className={classes.link} ><Typography>HOME</Typography></Link>
                     <Typography>ABOUT</Typography>
                     <Typography>CONTACT</Typography>
-                    <Typography><button onClick={handleLogOut}>LOGOUT</button></Typography>
+                    <Typography><button onClick={handleLogOut} className={classes.button}>LOGOUT</button></Typography>
                 </Toolbar>
             </AppBar>
             {error && <Alert variant="danger">{error}</Alert>}

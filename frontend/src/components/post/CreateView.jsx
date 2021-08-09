@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Box, Button, FormControl, InputBase, makeStyles, TextareaAutosize } from '@material-ui/core';
 import { AddCircle } from '@material-ui/icons';
 import { createPost, uploadFile } from '../../service/api';
+import { useAuth } from '../../contexts/AuthContext';
 import Navbar from '../Navbar';
 
 const useStyle = makeStyles((theme) => ({
@@ -42,8 +43,8 @@ const initialValues = {
     title: '',
     description: '',
     picture: '',
-    username: 'kowsihan',
-    categories: 'All',
+    username: '',
+    categories: '',
     createdDate: new Date()
 };
 
@@ -51,10 +52,13 @@ const CreateView = () => {
     const classes = useStyle();
 
     const history = useHistory();
+    const location = useLocation();
     const [post, setPost] = useState(initialValues);
     const [file, setFile] = useState('');
     // eslint-disable-next-line
     const [imageURL, setImageURL] = useState('');
+
+    const { getUserId } = useAuth();
 
     const url = post.picture || "https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg";
 
@@ -72,11 +76,13 @@ const CreateView = () => {
             }
         }
         getImage();
+        post.username = getUserId();
+        post.categories = location.search?.split('=')[1] || 'All';
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [file]);
 
     const handleChange = (e) => {
-        setPost({ ...post, [e.target.name]: e.target.value })
+        setPost({ ...post, [e.target.name]: e.target.value });
     }
 
     const savePost = async () => {

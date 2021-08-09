@@ -53,3 +53,28 @@ export const uploadFile = async (data) => {
         console.log("Error while uploading Image ", error);
     }
 }
+
+export const newComment = async (data) => {
+    try {
+        return await axios.post(`${URL}/comment/new`, data);
+    } catch (error) {
+        console.log('Error while calling newComment API', error);
+    }
+}
+
+export const getComments = async (id) => {
+    try {
+        let response = await axios.get(`${URL}/comments/${id}`);
+        return response.data;
+    } catch (error) {
+        console.log('Error while calling getComment API', error);
+    }
+}
+
+export const deleteComment = async (id) => {
+    try {
+        return await axios.delete(`${URL}/comment/delete/${id}`);
+    } catch (error) {
+        console.log('Error while calling deleteComment API', error);
+    }
+}

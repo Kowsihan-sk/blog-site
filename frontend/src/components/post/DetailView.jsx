@@ -3,7 +3,9 @@ import { Link, useHistory } from 'react-router-dom';
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import { Edit, Delete } from '@material-ui/icons';
 import { getPost, deletePost } from '../../service/api';
+import { useAuth } from '../../contexts/AuthContext';
 import Navbar from '../Navbar';
+import Comments from '../../comments/Comments';
 
 const useStyle = makeStyles((theme) => ({
     container: {
@@ -53,6 +55,8 @@ const DetailView = ({ match }) => {
 
     const history = useHistory();
     const [post, setPost] = useState([]);
+    const { getUserId } = useAuth();
+
     useEffect(() => {
         const fetchData = async () => {
             let data = await getPost(match.params.id);
@@ -74,8 +78,13 @@ const DetailView = ({ match }) => {
             <Box className={classes.container}>
                 <img src={post.picture || url} alt="banner" className={classes.image} />
                 <Box className={classes.icons}>
-                    <Link to={`/update/${post._id}`}><Edit color="primary" fontSize="large" className={classes.icon} /></Link>
-                    <Delete onClick={() => deleteBlog()} color="error" fontSize="large" className={classes.icon} />
+                    {
+                        getUserId() === post.username &&
+                        <>
+                            <Link to={`/update/${post._id}`}><Edit color="primary" fontSize="large" className={classes.icon} /></Link>
+                            <Delete onClick={() => deleteBlog()} color="error" fontSize="large" className={classes.icon} />
+                        </>
+                    }
                 </Box>
 
                 <Typography className={classes.heading}>{post.title}</Typography>
@@ -86,6 +95,7 @@ const DetailView = ({ match }) => {
                     <Typography style={{ marginLeft: "auto" }}>{new Date(post.createdDate).toDateString()}</Typography>
                 </Box>
                 <Typography>{post.description}</Typography>
+                <Comments post={post} />
             </Box>
         </>
     )

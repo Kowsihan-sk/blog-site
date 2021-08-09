@@ -10,7 +10,7 @@ import UpdateView from "./components/post/UpdateView";
 import Signup from './components/Signup';
 import Login from './components/Login';
 import { AuthProvider } from './contexts/AuthContext';
-import PrivateRoute from './components/PrivateRoute';
+import PrivateRoute from './PrivateRoute';
 import ForgotPassword from './components/ForgotPassword';
 
 function App() {

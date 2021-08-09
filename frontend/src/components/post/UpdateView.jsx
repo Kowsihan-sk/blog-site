@@ -42,8 +42,8 @@ const initialValues = {
     title: '',
     description: '',
     picture: '',
-    username: 'park dong ho',
-    categories: 'All',
+    username: '',
+    categories: '',
     createdDate: new Date()
 };
 

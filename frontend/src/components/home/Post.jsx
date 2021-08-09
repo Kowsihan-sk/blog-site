@@ -38,13 +38,18 @@ const useStyles = makeStyles({
 const Post = ({ post }) => {
     const classes = useStyles();
     const url = post.picture || "https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg";
+
+    const addElipsis = (str, limit) => {
+        return str.length > limit ? str.substring(0, limit) + '...' : str;
+    }
+
     return (
         <Box className={classes.container}>
             <img src={url} alt="wrapper" className={classes.image} />
             <Typography className={classes.text}>{post.categories}</Typography>
-            <Typography className={classes.heading}>{post.title}</Typography>
+            <Typography className={classes.heading}>{addElipsis(post.title, 20)}</Typography>
             <Typography className={classes.text}>author: {post.username} </Typography>
-            <Typography className={classes.detail} >{post.description}</Typography>
+            <Typography className={classes.detail} >{addElipsis(post.description, 100)}</Typography>
         </Box>
     )
 }
