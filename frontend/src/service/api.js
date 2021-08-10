@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import axios from "axios";
 dotenv.config();
 
-const URL = `http://localhost:5000`;
+const URL = ``;
 
 export const createPost = async (post) => {
     try {
