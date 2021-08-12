@@ -1,5 +1,6 @@
 import { Box, Button, makeStyles, TextareaAutosize } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
+import { useAuth } from '../contexts/AuthContext';
 import { getComments, newComment } from '../service/api';
 import Comment from './Comment';
 
@@ -7,7 +8,7 @@ const useStyles = makeStyles({
     component: {
         marginTop: 100,
         display: 'flex',
-        marginBottom: 40
+        marginBottom: 60
     },
     image: {
         width: 50,
@@ -32,11 +33,12 @@ const initialValue = {
 
 const Comments = ({ post }) => {
     const classes = useStyles();
-    const url = `https://static.thenounproject.com/png/12017-200.png`;
+    const url = `https://cdn0.iconfinder.com/data/icons/business-and-marketing-21/32/finance_profile_person-512.png`;
 
     const [comment, setComment] = useState(initialValue);
     const [comments, setComments] = useState([]);
     const [toggle, setToggle] = useState(false);
+    const { currentUser } = useAuth();
 
     useEffect(() => {
         const getData = async () => {
@@ -49,7 +51,7 @@ const Comments = ({ post }) => {
     const handleChange = (e) => {
         setComment({
             ...comment,
-            name: post.username,
+            name: currentUser.displayName,
             postId: post._id,
             comments: e.target.value
         })

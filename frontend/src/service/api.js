@@ -3,6 +3,7 @@ import axios from "axios";
 dotenv.config();
 
 const URL = `https://blog--site.herokuapp.com`;
+// const URL = `http://localhost:5000`;
 
 export const createPost = async (post) => {
     try {

@@ -3,7 +3,9 @@ dotenv.config();
 import mongoose from "mongoose";
 import grid from "gridfs-stream";
 
+// const URL = `https://blog--site.herokuapp.com`;
 const url = `http://localhost:5000`;
+
 
 let gfs;
 const conn = mongoose.connection;
