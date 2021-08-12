@@ -22,7 +22,7 @@ export const getComments = async (req, res) => {
 
 export const deleteComment = async (req, res) => {
     try {
-        await Comment.findById({ postId: req.params.id });
+        await Comment.deleteOne({ _id: req.params.id });
         res.status(200).json('comment deleted successfully');;
     } catch (error) {
         res.status(500).json(error);
