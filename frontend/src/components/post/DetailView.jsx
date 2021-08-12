@@ -11,7 +11,7 @@ const useStyle = makeStyles((theme) => ({
     container: {
         padding: "0 100px",
         [theme.breakpoints.down('md')]: {
-            padding: 0
+            padding: "0 3px"
         }
     },
     image: {
